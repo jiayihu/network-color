@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { HexForm } from '../HexForm';
 import { Packets } from '../Packets/Packets';
 import { PixelCanvas } from '../PixelCanvas/PixelCanvas';
-import pikaImg from './pika-64.png';
+import pikaImg from './pika-128.png';
 
 const packets = [
   '88e9fe877f08101331b7943a08004540006c000040003a11d7b1d83ace2ec0a8017e01bbd0c9005884494afd13aba07d6f4477362bdf34fe626e94eabb0264d2dd0baa00fa53d4a9891d8c5f6cdec3ec9b6141e30c3165c2d0eed9debb584bdd3eb6c3bed620c8f46659b74efb013a6608dd8e9b5e196c54ee23',
@@ -14,18 +14,10 @@ const packets = [
 
 const palette = ['#ffffff', '#000000', '#752609', '#eaba3a', '#c8511c', '#ec7a5d'];
 
-export function RetroImage() {
-  const [activeColors, setActiveColors] = useState<string[]>([
-    '#ffffff',
-    '#000000',
-    '#752609',
-    '#eaba3a',
-    '#c8511c',
-    '#ec7a5d',
-  ]);
+export function PikaImage() {
+  const [activeColors, setActiveColors] = useState<string[]>([]);
 
   const handleSubmit = ({ color }: { color: string }) => {
-    console.log(color);
     if (!palette.includes(color)) {
       return alert('Invalid color');
     }
@@ -38,8 +30,8 @@ export function RetroImage() {
       <div className="col-md-6">
         <PixelCanvas
           imgSrc={pikaImg}
-          width={64}
-          height={64}
+          width={128}
+          height={128}
           palette={palette}
           activeColors={activeColors}
         />

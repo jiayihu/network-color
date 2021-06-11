@@ -43,38 +43,9 @@ const palette = [
 ];
 
 export function AdaImage() {
-  const [activeColors, setActiveColors] = useState<string[]>([
-    '#ffffff',
-    '#f3e4c9',
-    '#444648',
-    '#565650',
-    '#000000',
-    '#72777a',
-    '#eae3a8',
-    '#656155',
-    '#2e3032',
-    '#433b32',
-    '#babab8',
-    '#edd826',
-    '#c7c4a1',
-    '#c1a79a',
-    '#605323',
-    '#352d1c',
-    '#4d4520',
-    '#8a7a70',
-    '#afa194',
-    '#271e1d',
-    '#726b0c',
-    '#8e9388',
-    '#e7cec0',
-    '#ccc484',
-    '#9da99a',
-    '#abc1ac',
-    '#fdfdef',
-  ]);
+  const [activeColors, setActiveColors] = useState<string[]>([]);
 
   const handleSubmit = ({ color }: { color: string }) => {
-    console.log(color);
     if (!palette.includes(color)) {
       return alert('Invalid color');
     }
@@ -91,6 +62,7 @@ export function AdaImage() {
           height={128}
           palette={palette}
           activeColors={activeColors}
+          hideOriginal
         />
       </div>
       <div className="col-md-6">

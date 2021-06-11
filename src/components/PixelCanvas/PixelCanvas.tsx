@@ -10,6 +10,7 @@ export type Props = {
   height: number;
   palette: string[];
   activeColors: string[];
+  hideOriginal?: boolean;
 };
 
 function mostSimilarInPalette(palette: string[], color: string) {
@@ -32,7 +33,7 @@ function extractPalette(pixels: string[]) {
   const mostPopularEntries = Array.from(colorsByCount.entries()).sort((a, b) => b[1] - a[1]);
   const mostPopularColors = mostPopularEntries.map(([color]) => color);
 
-  console.log(mostPopularEntries);
+  // console.log(mostPopularEntries);
 
   const palette = new Array(30).fill(null).reduce(
     (palette: string[]) => {
@@ -51,7 +52,7 @@ function extractPalette(pixels: string[]) {
 }
 
 export function PixelCanvas(props: Props) {
-  const { imgSrc, width, height, palette, activeColors } = props;
+  const { imgSrc, width, height, palette, activeColors, hideOriginal } = props;
   const [pixels, setPixels] = useState<string[] | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -109,6 +110,7 @@ export function PixelCanvas(props: Props) {
           width={width}
           height={height}
           onLoad={handleLoad}
+          className={css({ display: hideOriginal ? 'none' : 'static' })}
         />
       </div>
     </div>

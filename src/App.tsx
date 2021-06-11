@@ -1,6 +1,6 @@
 import './App.css';
 import { AdaImage } from './components/AdaImage/AdaImage';
-import { RetroImage } from './components/RetroImage/RetroImage';
+import { PikaImage } from './components/PikaImage/PikaImage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
       <div className="container my-5">
         <Switch>
           <Route path="/" exact>
-            <RetroImage />
+            <PikaImage />
           </Route>
           <Route path="/ada">
             <AdaImage />

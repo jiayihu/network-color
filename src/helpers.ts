@@ -20,8 +20,3 @@ export function groupBy<T>(values: T[], size: number) {
 
   return groups;
 }
-
-export const printColors = (color: string, paletteColor: string) => {
-  console.log('%c color', `background: ${color}; color: #000`);
-  console.log('%c paletteColor', `background: ${paletteColor}; color: #000`);
-};

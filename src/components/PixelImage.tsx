@@ -41,12 +41,18 @@ export function PixelImage(props: Props) {
     }, new Uint8ClampedArray(width * height * 4));
 
     const imageData = new ImageData(rgba, width, height);
-    console.log(imageData);
     ctx.putImageData(imageData, 0, 0);
   }, [pixels, activeColors, width, height]);
 
   return (
-    <div className={css({ width: width * 2, height: height * 2 })}>
+    <div
+      className={css({
+        width: width * 2,
+        height: height * 2,
+        border: '2px solid #eee',
+        overflow: 'hidden',
+      })}
+    >
       <canvas ref={canvasRef} className={css({ width: width * 2, height: height * 2 })} />
     </div>
   );
