@@ -37,7 +37,7 @@ export function PixelImage(props: Props) {
 const imgStyle = css({
   border: '1px dashed #ccc',
   display: 'grid',
-  gap: '2px',
+  gap: '1px',
 });
 
 const dotStyle = css({
