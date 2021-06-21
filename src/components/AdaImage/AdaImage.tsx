@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { doc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
 import { HexForm } from '../../components/HexForm';
 import { Packets } from '../Packets/Packets';
 import { PixelCanvas } from '../PixelCanvas/PixelCanvas';
 import adaImg from './ada-128.png';
+import { useEffect } from 'react';
+import { getDb } from '../../db';
 
 const packets = [
   '88e9fe877f08101331b7943a08004540006c000040003a11d7b1d83ace2ec0a8017e01bbd0c9005884494afd13aba07d6f4477362bdf34fe626e94eabb0264d2dd0baa00fa53d4a9891d8c5f6cdec3ec9b6141e30c3165c2d0eed9debb584bdd3eb6c3bed620c8f46659b74efb013a6608dd8e9b5e196c54ee23',
@@ -45,12 +48,23 @@ const palette = [
 export function AdaImage() {
   const [activeColors, setActiveColors] = useState<string[]>([]);
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(getDb(), 'images', 'ada'), (doc) => {
+      const activeColors = (doc.data() as any).activeColors || [];
+      setActiveColors(activeColors);
+    });
+
+    return unsubscribe;
+  }, []);
+
   const handleSubmit = ({ color }: { color: string }) => {
     if (!palette.includes(color)) {
       return alert('Invalid color');
     }
 
-    setActiveColors([...activeColors, color]);
+    updateDoc(doc(getDb(), 'images', 'ada'), {
+      activeColors: arrayUnion(color),
+    });
   };
 
   return (

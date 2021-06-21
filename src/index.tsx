@@ -4,6 +4,13 @@ import './index.css';
 import './components/bootstrap.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { initializeApp } from 'firebase/app';
+
+initializeApp({
+  apiKey: 'AIzaSyCzT0MyzMFGYzvU3H46hOmUKFizMhwsxVc',
+  authDomain: 'network-color.firebaseapp.com',
+  projectId: 'network-color',
+});
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
