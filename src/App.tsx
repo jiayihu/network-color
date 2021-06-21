@@ -11,7 +11,7 @@ function App() {
           <Route path="/" exact>
             <PikaImage />
           </Route>
-          <Route path="/ada">
+          <Route path="/:group">
             <AdaImage />
           </Route>
         </Switch>
