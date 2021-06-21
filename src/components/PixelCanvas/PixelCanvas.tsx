@@ -24,6 +24,7 @@ function mostSimilarInPalette(palette: string[], color: string) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function extractPalette(pixels: string[]) {
   const colorsByCount = pixels.reduce((count, color) => {
     count.set(color, (count.get(color) || 0) + 1);

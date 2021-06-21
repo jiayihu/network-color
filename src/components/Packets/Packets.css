@@ -16,3 +16,12 @@
   justify-content: center;
   position: static;
 }
+
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  bottom: auto;
+  top: -1rem;
+  transform: rotate(90deg);
+  right: 0;
+}

@@ -1,15 +1,21 @@
+import './HexEditor.css';
 import { css, cx } from '@emotion/css';
 import { Fragment } from 'react';
-import { groupBy } from '../helpers';
+import { groupBy } from '../../helpers';
 
 export type Props = {
   hexStream: string;
+  decimal: boolean;
 };
 
 export function HexEditor(props: Props) {
   const hexStream = Array.from(props.hexStream);
-  const hexPairs = groupBy(hexStream, 2).map((pair) => pair.join(''));
-  const hexRows = groupBy(hexPairs, 8);
+  const pairs = groupBy(hexStream, 2).map((pair) => {
+    const hex = pair.join('');
+
+    return props.decimal ? `${parseInt(hex, 16)}` : hex;
+  });
+  const rows = groupBy(pairs, 8);
 
   const headers = Array.from({ length: 8 }, (_, i) => i).map((x) =>
     x.toString(16).padStart(2, '0').toUpperCase(),
@@ -25,7 +31,7 @@ export function HexEditor(props: Props) {
           </span>
         ))}
       </div>
-      {hexRows.map((row, i) => {
+      {rows.map((row, i) => {
         const rowIndex = (i * 8).toString(16).padStart(4, '0').toUpperCase();
 
         return (
@@ -48,12 +54,13 @@ export function HexEditor(props: Props) {
 const hexStyles = css({
   display: 'grid',
   gridTemplateColumns: '3rem auto',
-  columnGap: '1rem',
+  rowGap: '0.25rem',
+  fontSize: 14,
 });
 
 const columnStyles = css({
   display: 'grid',
-  gridTemplateColumns: 'repeat(8, 2rem)',
+  gridTemplateColumns: 'repeat(8, 2.25rem)',
 });
 
 const headerStyle = css({

@@ -1,7 +1,7 @@
 import './Packets.css';
 import { useState } from 'react';
 import { Carousel, CarouselControl, CarouselItem } from 'reactstrap';
-import { HexEditor } from '../HexEditor';
+import { HexEditor } from '../HexEditor/HexEditor';
 
 export type Props = {
   packets: string[];
@@ -9,7 +9,10 @@ export type Props = {
 
 export function Packets(props: Props) {
   const { packets } = props;
+  const [displayHex, setDisplayHex] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleHexChange = () => setDisplayHex(!displayHex);
 
   const handleNext = () => {
     const nextIndex = activeIndex === packets.length - 1 ? 0 : activeIndex + 1;
@@ -25,7 +28,7 @@ export function Packets(props: Props) {
     return (
       <CarouselItem key={packet}>
         <div className="carousel-caption">
-          <HexEditor hexStream={packet} />
+          <HexEditor hexStream={packet} decimal={!displayHex} />
         </div>
       </CarouselItem>
     );
@@ -33,6 +36,17 @@ export function Packets(props: Props) {
 
   return (
     <div>
+      <div className="custom-control custom-switch">
+        <input
+          className="custom-control-input"
+          type="checkbox"
+          id="hex"
+          onChange={handleHexChange}
+        />
+        <label className="custom-control-label" htmlFor="hex">
+          Visualizza in hex
+        </label>
+      </div>
       <div className="text-center">
         {activeIndex + 1} / {packets.length}
       </div>

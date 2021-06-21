@@ -55,7 +55,7 @@ export function HexForm(props: Props) {
       <div className="row">
         <div className="col">
           <label className="form-label">Colore</label>
-          <ChromePicker color={color} onChangeComplete={handleChangeComplete} />
+          <ChromePicker color={color} onChangeComplete={handleChangeComplete} disableAlpha />
         </div>
       </div>
       <div className="row mt-3">
