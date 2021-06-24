@@ -7,6 +7,7 @@ import adaImg from './ada-128.png';
 import { useEffect } from 'react';
 import { getDb } from '../../db';
 import { Redirect, useParams } from 'react-router-dom';
+import chroma from 'chroma-js';
 
 const packets = [
   '88e9fe877f08101331b7943a08004540006c000040003a11d7b1d83ace2ec0a8017e01bbd0c9005884494afd13aba07d6f4477362bdf34fe626e94eabb0264d2dd0baa00fa53d4a9891d8c5f6cdec3ec9b6141e30c3165c2d0eed9debb584bdd3eb6c3bed620c8f46659b74efb013a6608dd8e9b5e196c54ee23',
@@ -48,6 +49,19 @@ type Group = 'alpha' | 'beta' | 'gamma' | 'delta' | 'epsilon';
 type Groups = Record<Group, string[]>;
 const allowedGroups: Group[] = ['alpha', 'beta', 'gamma', 'delta', 'epsilon'];
 
+// const solution = {
+//   /** ["rgb(157,169,154)", "rgb(39,30,29)", "rgb(96,83,35)", "rgb(67,59,50)", "rgb(0,0,0)"] */
+//   alpha: ['#9da99a', '#271e1d', '#605323', '#433b32', '#000000'],
+//   /** ["rgb(204,196,132)", "rgb(175,161,148)", "rgb(193,167,154)", "rgb(46,48,50)", "rgb(86,86,80)"] */
+//   beta: ['#ccc484', '#afa194', '#c1a79a', '#2e3032', '#565650'],
+//   /** ["rgb(231,206,192)", "rgb(138,122,112)", "rgb(199,196,161)", "rgb(101,97,85)", "rgb(68,70,72)"] */
+//   gamma: ['#e7cec0', '#8a7a70', '#c7c4a1', '#656155', '#444648'],
+//   /** ["rgb(142,147,136)", "rgb(77,69,32)", "rgb(237,216,38)", "rgb(234,227,168)", "rgb(243,228,201)"]  */
+//   delta: ['#8e9388', '#4d4520', '#edd826', '#eae3a8', '#f3e4c9'],
+//   /** ["rgb(114,107,12)", "rgb(53,45,28)", "rgb(186,186,184)", "rgb(114,119,122)", "rgb(255,255,255)"] */
+//   epsilon: ['#726b0c', '#352d1c', '#babab8', '#72777a', '#ffffff'],
+// };
+
 const groupPallettes = palette.reverse().reduce<Groups>(
   (groups, color, i) => {
     Object.values(groups)[i % 5].push(color);
@@ -56,8 +70,6 @@ const groupPallettes = palette.reverse().reduce<Groups>(
   },
   { alpha: [], beta: [], gamma: [], delta: [], epsilon: [] },
 );
-
-console.log(groupPallettes);
 
 export function AdaImage() {
   const [activeColors, setActiveColors] = useState<string[]>([]);
@@ -74,7 +86,11 @@ export function AdaImage() {
 
   const handleSubmit = ({ color }: { color: string }) => {
     if (!groupPallettes[group].includes(color)) {
-      return alert(`Il colore ${color} non esiste nell'immagine o non appartiene al tuo gruppo`);
+      return alert(
+        `Il colore rgb(${chroma(color)
+          .rgb()
+          .join(', ')}) non esiste nell'immagine o non appartiene al tuo gruppo`,
+      );
     }
 
     updateDoc(doc(getDb(), 'images', 'ada'), {
@@ -89,9 +105,16 @@ export function AdaImage() {
     return <Redirect to="/" />;
   }
 
+  const isFinished = groupPallettes[group].every((color) => activeColors.includes(color));
+
   return (
     <div className="row">
       <div className="col-md-6">
+        {isFinished && (
+          <div className="alert alert-secondary" role="alert">
+            Hai completato l'esercizio
+          </div>
+        )}
         <PixelCanvas
           imgSrc={adaImg}
           width={128}

@@ -1,3 +1,4 @@
+import chroma from 'chroma-js';
 import { useState } from 'react';
 import { HexForm } from '../HexForm';
 import { Packets } from '../Packets/Packets';
@@ -12,6 +13,9 @@ const packets = [
   '88e9fe877f08101331b7943a08004580008d000040003a11d750d83ace2ec0a8017e01bbd0c90079f62559fcf3d931b57a360e31c337a8138fa5d16d8c4962d38fc359973b02b0d5c9a82eccf5638df4b988747f85738c75e0cf4377ea2d05f6493c7c3fcf5e4a9bf29f118a8a14dd406622810d061a737e3bd4622401d96366c7e8c4e8bc7e56b606e24599586eb40bfcd5d1be2536f4e6d25202',
 ];
 
+/**
+["rgb(255, 255, 255)", "rgb(0, 0, 0)", "rgb(117, 38, 9)", "rgb(234, 186, 58)", "rgb(200, 81, 28)", "rgb(236, 122, 93)"]
+*/
 const palette = ['#ffffff', '#000000', '#752609', '#eaba3a', '#c8511c', '#ec7a5d'];
 
 export function PikaImage() {
@@ -19,7 +23,7 @@ export function PikaImage() {
 
   const handleSubmit = ({ color }: { color: string }) => {
     if (!palette.includes(color)) {
-      return alert('Invalid color');
+      return alert(`Il colore rgb(${chroma(color).rgb().join(', ')}) non è presente`);
     }
 
     setActiveColors([...activeColors, color]);

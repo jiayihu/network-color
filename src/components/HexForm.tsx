@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
-import { ChromePicker, ColorResult } from 'react-color';
+import { ColorResult } from 'react-color';
+import { ColorPicker } from './ColorPicker';
 
 export type Props = {
   enableCoords: boolean;
@@ -9,7 +10,7 @@ export type Props = {
 export function HexForm(props: Props) {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
-  const [color, setColor] = useState('#000000');
+  const [color, setColor] = useState('#ffffff');
 
   const handleChangeComplete = (color: ColorResult) => {
     setColor(color.hex);
@@ -55,13 +56,13 @@ export function HexForm(props: Props) {
       <div className="row">
         <div className="col">
           <label className="form-label">Colore</label>
-          <ChromePicker color={color} onChangeComplete={handleChangeComplete} disableAlpha />
+          <ColorPicker color={color} onChangeComplete={handleChangeComplete} />
         </div>
       </div>
       <div className="row mt-3">
         <div className="col">
           <button type="submit" className="btn btn-primary">
-            Submit
+            Applica
           </button>
         </div>
       </div>
