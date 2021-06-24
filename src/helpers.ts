@@ -20,3 +20,7 @@ export function groupBy<T>(values: T[], size: number) {
 
   return groups;
 }
+
+export function zip<T>(xs: T[], ys: T[]): [T, T][] {
+  return xs.map((x, i) => [x, ys[i]]);
+}

@@ -52,6 +52,40 @@ function extractPalette(pixels: string[]) {
   return palette;
 }
 
+function approximateDot(pixels: string[]) {
+  const blackPixels = pixels.filter((pixel) => pixel === '#000000').length;
+
+  if (blackPixels > 2) return '#000000';
+  else if (blackPixels === 2) return pixels[0];
+  else return '#ffffff';
+}
+
+function getColumns(pixels: string[][]) {
+  const columns: string[][] = [];
+
+  for (let column = 0; column < 32; column += 1) {
+    columns.push([]);
+
+    for (let row = 0; row < 4; row += 1) {
+      columns[column].push(pixels[row][column]);
+    }
+  }
+
+  return columns;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function extractQRBitmap(pixels: string[]) {
+  const columns = groupBy(pixels, 4).map((dot) => approximateDot(dot));
+  const rows = groupBy(columns, 32);
+  const rowGroups = groupBy(rows, 4);
+  const finalRows = rowGroups.map((rowGroup) =>
+    getColumns(rowGroup).map((column) => approximateDot(column)),
+  );
+
+  return finalRows;
+}
+
 export function PixelCanvas(props: Props) {
   const { imgSrc, width, height, palette, activeColors, hideOriginal } = props;
   const [pixels, setPixels] = useState<string[] | null>(null);
@@ -77,6 +111,9 @@ export function PixelCanvas(props: Props) {
 
       return color;
     });
+
+    // const bitmap = extractQRBitmap(pixels).flat();
+    // console.log(bitmap);
 
     const uniqueColors = Array.from(new Set(pixels));
 
