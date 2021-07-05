@@ -5,10 +5,11 @@ import { HexEditor } from '../HexEditor/HexEditor';
 
 export type Props = {
   packets: string[];
+  skipLast: number;
 };
 
 export function Packets(props: Props) {
-  const { packets } = props;
+  const { packets, skipLast } = props;
   const [displayHex, setDisplayHex] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -28,7 +29,7 @@ export function Packets(props: Props) {
     return (
       <CarouselItem key={packet}>
         <div className="carousel-caption">
-          <HexEditor hexStream={packet} decimal={!displayHex} />
+          <HexEditor hexStream={packet} decimal={!displayHex} skipLast={skipLast} />
         </div>
       </CarouselItem>
     );
@@ -56,6 +57,7 @@ export function Packets(props: Props) {
         previous={handlePrevious}
         interval={false}
         className="carousel-dark"
+        keyboard={false}
       >
         {slides}
         <CarouselControl direction="prev" directionText="" onClickHandler={handlePrevious} />

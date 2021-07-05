@@ -6,16 +6,18 @@ import { groupBy } from '../../helpers';
 export type Props = {
   hexStream: string;
   decimal: boolean;
+  skipLast: number;
 };
 
 export function HexEditor(props: Props) {
-  const hexStream = Array.from(props.hexStream);
+  const hexStream = Array.from(props.hexStream).slice(0, props.hexStream.length - props.skipLast);
   const pairs = groupBy(hexStream, 2).map((pair) => {
     const hex = pair.join('');
 
     return props.decimal ? `${parseInt(hex, 16)}` : hex;
   });
-  const rows = groupBy(pairs, 8);
+  const binaries = Array.from(props.hexStream.slice(props.hexStream.length - props.skipLast));
+  const rows = groupBy([...pairs, ...binaries], 8);
 
   const headers = Array.from({ length: 8 }, (_, i) => i).map((x) =>
     x.toString(16).padStart(2, '0').toUpperCase(),

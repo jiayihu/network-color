@@ -5,9 +5,11 @@ import { ColorPicker } from './ColorPicker';
 export type Props = {
   enableCoords: boolean;
   onSubmit: (values: { x: number; y: number; color: string }) => void;
+  disabled?: boolean;
 };
 
 export function HexForm(props: Props) {
+  const { disabled } = props;
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
   const [color, setColor] = useState('#ffffff');
@@ -61,7 +63,7 @@ export function HexForm(props: Props) {
       </div>
       <div className="row mt-3">
         <div className="col">
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" disabled={disabled}>
             Applica
           </button>
         </div>
