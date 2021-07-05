@@ -7,9 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import { initializeApp } from 'firebase/app';
 
 initializeApp({
-  apiKey: 'AIzaSyCzT0MyzMFGYzvU3H46hOmUKFizMhwsxVc',
-  authDomain: 'network-color.firebaseapp.com',
-  projectId: 'network-color',
+  apiKey: process.env.REACT_APP_API_KEY,
+  projectId: process.env.REACT_APP_PROJECT_ID,
 });
 
 ReactDOM.render(<App />, document.getElementById('root'));
